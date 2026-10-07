@@ -76,3 +76,6 @@ Intro verification: JavaScript syntax and isolated lifecycle checks for automati
 
 OCTOBER 2026 VISUAL UPDATE
 Hero uses the supplied Render background video, optimized as assets/render-background.mp4, with a matching poster and animated fallback. This replaces the generated red-dot loop. Section palettes now cover the full page, header, form and footer, finishing in charcoal at contact. Hero glass reflections follow mouse pointers and respect motion preferences. The supplied Render Studio wordmark appears in the footer.
+
+CINEMATIC DESIGN
+cinematic.css adds a near-black canvas, diagonal light trails, sculptural artwork, white typography and red pill actions inspired by the supplied reference. The supplied video and whole-page scroll palettes remain active.
