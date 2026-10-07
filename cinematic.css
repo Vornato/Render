@@ -387,3 +387,15 @@ html[lang="ka"] .intro-skip { font-family: "Noto Sans Georgian", sans-serif; }
 .symbol-identity{background:transparent;border:2px solid #9c9fab;width:21px;height:21px;transform:rotate(-12deg)}.symbol-identity::after{width:12px;height:12px;right:-8px;top:10px;transform:rotate(12deg)}
 .capabilities-strip{flex-wrap:wrap;gap:16px 24px}.capabilities-strip>span{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}.capabilities-strip>span::before{content:"";width:3px;height:3px;background:var(--red);flex-shrink:0}
 @media(max-width:760px){.capabilities-strip{gap:12px 17px;justify-content:flex-start}}
+
+/* A stable outer hit area and a responsive inner glass card. */
+.hero-art-wrap{min-width:0;width:100%;max-width:490px;align-self:center;justify-self:end;position:relative}
+.hero-art-wrap .hero-art{width:100%;max-width:none;transform:perspective(1100px) rotateX(var(--glass-tilt-x,0deg)) rotateY(calc(-6deg + var(--glass-tilt-y,0deg))) rotateZ(1deg) translateY(calc(var(--glass-engagement,0)*-3px)) scale(calc(1 + var(--glass-engagement,0)*.018));transition:border-color .25s ease;box-shadow:var(--glass-shadow-x,0px) 35px 85px #0009,inset 0 1px 0 #ffffff45;isolation:isolate}
+.hero-art-wrap .hero-art::after{content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:2;background:radial-gradient(ellipse at var(--glass-x,50%) var(--glass-y,50%),#ffffff32,transparent 58%);opacity:calc(.08 + var(--glass-engagement,0)*.82)}
+.hero-art-wrap .hero-image-frame{transform:translate3d(var(--glass-shift-x,0px),var(--glass-shift-y,0px),0)}
+.hero-art-wrap .art-meta,.hero-art-wrap .art-caption{transform:translate(var(--glass-shift-x,0px),var(--glass-shift-y,0px))}
+@media(hover:hover) and (pointer:fine){.hero-art-wrap:hover .hero-art{border-color:#ffffff65}}
+@media(max-width:760px){.hero-art-wrap{order:1;width:78%;max-width:350px;justify-self:center}.hero-art-wrap .hero-art{transform:perspective(1000px) rotateY(-7deg) rotateZ(2deg)}}
+@media(max-width:440px){.hero-art-wrap{width:83%}}
+@media(prefers-reduced-motion:reduce){.hero-art-wrap .hero-art{transform:none;transition:none}.hero-art-wrap .hero-image-frame,.hero-art-wrap .art-meta,.hero-art-wrap .art-caption{transform:none}.hero-art-wrap .hero-art::after{display:none}}
+.motion-paused .hero-art-wrap .hero-art{transform:none;transition:none}.motion-paused .hero-art-wrap .hero-art::after{display:none}

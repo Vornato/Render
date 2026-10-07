@@ -86,3 +86,6 @@ The portfolio identity study now also uses the supplied Render background footag
 
 ADDITIONAL SERVICES
 Website design & development and Brand identity & design are included in the service grid, capability strip and WhatsApp brief options, in English and Georgian. Website scope covers custom landing/business sites, responsive development, contact flows and launch handover. Brand identity covers logos, colors, typography, branded templates and guidelines.
+
+REACTIVE HERO CARD
+The hero artwork follows fine mouse pointers with up to 8 degrees of pitch and 11 degrees of yaw, a moving glass reflection, subtle layer parallax and smooth easing back to rest. A stable outer wrapper prevents pointer feedback jitter. Touch, reduced motion and the site motion toggle keep the effect disabled; hidden tabs, scroll and window blur reset it.

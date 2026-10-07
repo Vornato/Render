@@ -152,17 +152,54 @@ form.querySelectorAll('[required]').forEach(input=>{
 updateLanguageUI();
 updateMotion();scheduleScroll();
 
-// The glass responds only to fine pointers while motion is enabled.
-const glassPanels=[...document.querySelectorAll('.hero-art')];
-function resetGlass(panel){['--glass-x','--glass-y','--glass-tilt-x','--glass-tilt-y'].forEach(name=>panel.style.removeProperty(name));}
-glassPanels.forEach(panel=>{
-  let pending=0;
-  panel.addEventListener('pointermove',event=>{
-    if(event.pointerType!=='mouse'||!motionAllowed())return;
-    const box=panel.getBoundingClientRect();const x=Math.max(0,Math.min(1,(event.clientX-box.left)/box.width)),y=Math.max(0,Math.min(1,(event.clientY-box.top)/box.height));
-    cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{panel.style.setProperty('--glass-x',x*100+'%');panel.style.setProperty('--glass-y',y*100+'%');panel.style.setProperty('--glass-tilt-x',(0.5-y)*4+'deg');panel.style.setProperty('--glass-tilt-y',(x-0.5)*5+'deg');});
-  },{passive:true});
-  panel.addEventListener('pointerleave',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
-  motionToggle.addEventListener('click',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
-  reducedMotion.addEventListener('change',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
+// Tilt uses an untransformed hit area, avoiding feedback jitter as the card rotates.
+const finePointer=matchMedia('(hover: hover) and (pointer: fine)');
+document.querySelectorAll('.hero-art-wrap').forEach(surface=>{
+  const panel=surface.querySelector('.hero-art');
+  let frame=0,lastTime=0;
+  const current={x:0,y:0,active:0};
+  const target={x:0,y:0,active:0};
+  const properties=['--glass-x','--glass-y','--glass-tilt-x','--glass-tilt-y','--glass-shift-x','--glass-shift-y','--glass-engagement','--glass-shadow-x'];
+  function supported(){return finePointer.matches&&motionAllowed()&&!document.hidden;}
+  function paint(){
+    panel.style.setProperty('--glass-x',(50+current.x*43)+'%');
+    panel.style.setProperty('--glass-y',(50+current.y*43)+'%');
+    panel.style.setProperty('--glass-tilt-x',(-current.y*8).toFixed(3)+'deg');
+    panel.style.setProperty('--glass-tilt-y',(current.x*11).toFixed(3)+'deg');
+    panel.style.setProperty('--glass-shift-x',(current.x*4).toFixed(3)+'px');
+    panel.style.setProperty('--glass-shift-y',(current.y*4).toFixed(3)+'px');
+    panel.style.setProperty('--glass-shadow-x',(-current.x*18).toFixed(3)+'px');
+    panel.style.setProperty('--glass-engagement',current.active.toFixed(4));
+  }
+  function animate(time){
+    frame=0;
+    if(!supported()){reset();return;}
+    const dt=Math.min(40,lastTime?time-lastTime:16.67);lastTime=time;
+    const ease=1-Math.pow(.78,dt/16.67);
+    let unsettled=false;
+    for(const key of ['x','y','active']){current[key]+=(target[key]-current[key])*ease;if(Math.abs(target[key]-current[key])>.001)unsettled=true;else current[key]=target[key];}
+    paint();
+    if(unsettled)frame=requestAnimationFrame(animate);else lastTime=0;
+  }
+  function schedule(){if(!frame)frame=requestAnimationFrame(animate);}
+  function reset(){cancelAnimationFrame(frame);frame=0;lastTime=0;for(const key of ['x','y','active'])current[key]=target[key]=0;properties.forEach(name=>panel.style.removeProperty(name));}
+  function follow(event){
+    if(event.pointerType!=='mouse'||!supported())return;
+    const box=surface.getBoundingClientRect();
+    target.x=Math.max(-1,Math.min(1,(event.clientX-box.left)/box.width*2-1));
+    target.y=Math.max(-1,Math.min(1,(event.clientY-box.top)/box.height*2-1));
+    target.active=1;schedule();
+  }
+  surface.addEventListener('pointerenter',follow,{passive:true});
+  surface.addEventListener('pointermove',follow,{passive:true});
+  surface.addEventListener('pointerleave',()=>{target.x=target.y=target.active=0;schedule();});
+  surface.addEventListener('pointercancel',reset);
+  window.addEventListener('blur',reset);
+  window.addEventListener('resize',reset);
+  window.addEventListener('scroll',reset,{passive:true});
+  document.addEventListener('visibilitychange',reset);
+  window.addEventListener('render-language-change',reset);
+  motionToggle.addEventListener('click',reset);
+  reducedMotion.addEventListener('change',reset);
+  finePointer.addEventListener('change',reset);
 });
