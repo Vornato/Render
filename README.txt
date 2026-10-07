@@ -89,3 +89,6 @@ Website design & development and Brand identity & design are included in the ser
 
 REACTIVE HERO CARD
 The hero artwork follows fine mouse pointers with up to 8 degrees of pitch and 11 degrees of yaw, a moving glass reflection, subtle layer parallax and smooth easing back to rest. A stable outer wrapper prevents pointer feedback jitter. Touch, reduced motion and the site motion toggle keep the effect disabled; hidden tabs, scroll and window blur reset it.
+
+RESTORED SCROLL MOTION
+The original nine-square Render motif is restored at the left edge. Its pieces rotate, separate and reassemble as page progress changes, including reverse scrolling. Native transforms share the existing requestAnimationFrame scroll update. The hero layers and framed portfolio/studio images have restrained parallax. Smaller movements and a narrow motif preserve mobile space. The motion pause control and reduced-motion preference disable every added effect; the motif hides during the intro and project dialogs.

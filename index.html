@@ -14,11 +14,11 @@
   <link rel="stylesheet" href="sections.css">
   <link rel="stylesheet" href="enhancements.css?v=reactive-glass-9">
   <link rel="stylesheet" href="intro.css?v=pixel-intro-1">
-  <link rel="stylesheet" href="cinematic.css?v=tilt-4">
+  <link rel="stylesheet" href="cinematic.css?v=scroll-6">
   <script>(function(){var root=document.documentElement;root.classList.add('intro-pending');window.setTimeout(function(){if(window.RenderIntro){window.RenderIntro.finish();return;}root.classList.remove('intro-pending','intro-running');var intro=document.getElementById('site-intro');if(intro)intro.remove();},5500);})();</script>
   <script src="intro.js?v=polish-2" defer></script>
   <script src="i18n.js?v=hyphens-5" defer></script>
-  <script src="script.js?v=tilt-4" defer></script>
+  <script src="script.js?v=scroll-6" defer></script>
   <script src="hero-video.js?v=polish-2" defer></script>
 
 </head>
@@ -48,7 +48,7 @@
     <nav id="primary-nav" aria-label="Main navigation"><a href="#services">Services</a><a href="#work">Work</a><a href="#about">Studio</a><a href="#contact">Contact</a><a class="button button-red nav-cta" href="#contact">Start a project <span class="button-square" aria-hidden="true"></span></a></nav>
     <div class="header-tools"><div class="language-switch" role="group" aria-label="Website language"><button type="button" data-language="ka" lang="ka" title="ქართული" aria-label="ქართული" aria-pressed="false">GE</button><span aria-hidden="true">/</span><button type="button" data-language="en" lang="en" title="English" aria-label="English" aria-pressed="true" class="is-active">ENG</button></div><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span class="menu-lines" aria-hidden="true"></span><span class="menu-label">Menu</span></button></div>
   </header>
-  <div id="remotion-overlay" aria-hidden="true" inert></div>
+  <div class="scroll-motif" data-pixel-motif aria-hidden="true" inert><span class="motif-pixel motif-accent" style="--pixel-column:0;--pixel-row:0"></span><span class="motif-pixel motif-light" style="--pixel-column:2;--pixel-row:0"></span><span class="motif-pixel motif-mid" style="--pixel-column:3;--pixel-row:1"></span><span class="motif-pixel motif-light" style="--pixel-column:0;--pixel-row:2"></span><span class="motif-pixel motif-light" style="--pixel-column:2;--pixel-row:2"></span><span class="motif-pixel motif-mid" style="--pixel-column:1;--pixel-row:3"></span><span class="motif-pixel motif-mid" style="--pixel-column:3;--pixel-row:3"></span><span class="motif-pixel motif-dark" style="--pixel-column:2;--pixel-row:4"></span><span class="motif-pixel motif-dark" style="--pixel-column:4;--pixel-row:4"></span></div>
   <aside class="scroll-control" aria-label="Page scroll control"><span class="rail-label" aria-hidden="true">SCROLL TO EXPLORE</span><div class="scroll-track" role="slider" tabindex="0" aria-label="Page scroll progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-orientation="vertical"><span class="scroll-fill"></span><span class="scroll-square"></span></div><span class="rail-count" aria-hidden="true">01</span></aside>
   <main id="main">
     <section id="home" class="hero section-shell" data-section="01">
@@ -84,7 +84,7 @@
       </div>
     </section>
     <section id="about" class="about section-shell" data-section="04">
-      <div class="about-art reveal"><img src="assets/strategy.webp" width="1536" height="1024" loading="lazy" alt="A modular creative workspace with a strategic planning board in the studio’s pixel style"><div class="about-art-label"><span class="red-square" aria-hidden="true"></span>THE STUDIO, PIECE BY PIECE.</div></div>
+      <div class="about-art reveal"><div class="about-image-frame"><img src="assets/strategy.webp" width="1536" height="1024" loading="lazy" alt="A modular creative workspace with a strategic planning board in the studio’s pixel style"></div><div class="about-art-label"><span class="red-square" aria-hidden="true"></span>THE STUDIO, PIECE BY PIECE.</div></div>
       <div class="about-copy reveal"><p class="eyebrow"><span class="red-square" aria-hidden="true"></span>03 / ABOUT RENDER</p><h2>Small details.<br>Big picture.</h2><p class="about-lead">We connect creative thinking with practical marketing.</p><p>Render Studio is a creative and marketing partner for brands ready to build a stronger presence. We connect brand identity, websites, video, social content, and campaigns in one creative process.</p><p>Whether you need a launch film, a month of content or a complete campaign, we start by understanding your business. Then we build the pieces around a clear direction.</p><div class="values"><div><span>01</span><h3>Clarity first</h3><p>A clear goal, a clear scope and a shared direction.</p></div><div><span>02</span><h3>Built together</h3><p>Your knowledge of your business. Our creative perspective.</p></div><div><span>03</span><h3>Always learning</h3><p>Every project gives us a better starting point for the next.</p></div></div></div>
     </section>
     <section id="process" class="process section-shell" data-section="05">

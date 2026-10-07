@@ -399,3 +399,57 @@ html[lang="ka"] .intro-skip { font-family: "Noto Sans Georgian", sans-serif; }
 @media(max-width:440px){.hero-art-wrap{width:83%}}
 @media(prefers-reduced-motion:reduce){.hero-art-wrap .hero-art{transform:none;transition:none}.hero-art-wrap .hero-image-frame,.hero-art-wrap .art-meta,.hero-art-wrap .art-caption{transform:none}.hero-art-wrap .hero-art::after{display:none}}
 .motion-paused .hero-art-wrap .hero-art{transform:none;transition:none}.motion-paused .hero-art-wrap .hero-art::after{display:none}
+
+
+/* Original pixel identity at the left edge; scroll changes the arrangement. */
+.scroll-motif {
+  --motif-unit: 7px;
+  display: none;
+  position: fixed;
+  left: 16px;
+  top: 73vh;
+  width: calc(var(--motif-unit) * 5);
+  height: calc(var(--motif-unit) * 5);
+  z-index: 22;
+  pointer-events: none;
+}
+.scroll-motion .scroll-motif { display: block; }
+.motif-pixel {
+  position: absolute;
+  left: calc(var(--pixel-column) * var(--motif-unit));
+  top: calc(var(--pixel-row) * var(--motif-unit));
+  width: var(--motif-unit);
+  height: var(--motif-unit);
+  background: #c5c8d1;
+  opacity: .55;
+  pointer-events: none;
+}
+.motif-accent { background: var(--red); opacity: .95; }
+.motif-mid { background: #a0a5b4; }
+.motif-dark { background: #7c849a; }
+.intro-pending .scroll-motif, .intro-running .scroll-motif,
+.dialog-open .scroll-motif, .motion-paused .scroll-motif { display: none; }
+
+/* Image drift stays inside its frame; headings and controls remain readable. */
+.scroll-motion .hero-copy { translate: 0 var(--hero-copy-drift, 0px); }
+.scroll-motion .hero-art-wrap { translate: 0 var(--hero-art-drift, 0px); }
+.scroll-motion .hero::before { translate: 0 var(--hero-trail-drift, 0px); }
+.about-image-frame { overflow: hidden; border-radius: 22px; }
+.about-image-frame > img { display: block; width: 100%; }
+.scroll-motion .project-media > img,
+.scroll-motion .about-image-frame > img {
+  translate: 0 var(--scroll-drift, 0px);
+  scale: 1.09;
+}
+@media(max-width:1200px) { .scroll-motif { --motif-unit: 5px; left: 10px; } }
+@media(max-width:760px) {
+  .scroll-motif { --motif-unit: 2px; left: 5px; }
+  .about-image-frame { border-radius: 17px; }
+}
+.motion-paused .hero-copy, .motion-paused .hero-art-wrap, .motion-paused .hero::before,
+.motion-paused .project-media > img, .motion-paused .about-image-frame > img { translate: none; scale: none; }
+@media(prefers-reduced-motion:reduce) {
+  .scroll-motion .scroll-motif { display: none; }
+  .scroll-motion .hero-copy, .scroll-motion .hero-art-wrap, .scroll-motion .hero::before,
+  .scroll-motion .project-media > img, .scroll-motion .about-image-frame > img { translate: none; scale: none; }
+}

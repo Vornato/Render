@@ -44,6 +44,54 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.reveal').forEach(item=>revealObserver.observe(item));
 }
 
+// Restore the original left-side pixel motif, driven by page position.
+const scrollMotif=document.querySelector('.scroll-motif');
+const motifPixels=[...document.querySelectorAll('.motif-pixel')];
+const scrollArtwork=[...document.querySelectorAll('.project-media>img,.about-image-frame>img')].map(image=>({image,frame:image.parentElement}));
+const heroSection=document.querySelector('#home');
+let motifUnit=7;
+function measureScrollMotion(){if(scrollMotif)motifUnit=parseFloat(getComputedStyle(scrollMotif).getPropertyValue('--motif-unit'))||7;}
+function motionKeyframe(progress,values){
+  const position=Math.min(1,Math.max(0,progress))*(values.length-1);
+  const index=Math.min(values.length-2,Math.floor(position));
+  const fraction=position-index,eased=fraction*fraction*(3-2*fraction);
+  return values[index]+(values[index+1]-values[index])*eased;
+}
+function updateScrollMotion(progress){
+  if(!motionAllowed()){
+    if(scrollMotif)scrollMotif.style.removeProperty('transform');
+    motifPixels.forEach(pixel=>pixel.style.removeProperty('transform'));
+    scrollArtwork.forEach(({image})=>image.style.removeProperty('--scroll-drift'));
+    ['--hero-copy-drift','--hero-art-drift','--hero-trail-drift'].forEach(name=>heroSection.style.removeProperty(name));
+    return;
+  }
+  if(scrollMotif){
+    const drift=motionKeyframe(progress,[-22,15,-12,22,-22])*motifUnit/7;
+    scrollMotif.style.transform='translate3d(0,'+drift.toFixed(2)+'px,0)';
+    const rotation=motionKeyframe(progress,[0,90,0,-90,0,90,0]);
+    motifPixels.forEach((pixel,index)=>{
+      const x=motionKeyframe(progress,[0,(index%3-1)*1.5,0,index%2?1:-1,0,index%3-1,0])*motifUnit;
+      const y=motionKeyframe(progress,[0,(index%2?1:-1)*2,0,index%3-1,0,(index%2?1:-1)*1.5,0])*motifUnit;
+      pixel.style.transform='translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0) rotate('+rotation.toFixed(2)+'deg)';
+    });
+  }
+  const mobile=innerWidth<=760;
+  const heroProgress=Math.min(1,Math.max(0,scrollY/Math.max(1,heroSection.offsetHeight)));
+  heroSection.style.setProperty('--hero-copy-drift',(-heroProgress*(mobile?8:20)).toFixed(2)+'px');
+  heroSection.style.setProperty('--hero-art-drift',(-heroProgress*(mobile?14:34)).toFixed(2)+'px');
+  heroSection.style.setProperty('--hero-trail-drift',(-heroProgress*40).toFixed(2)+'px');
+  scrollArtwork.forEach(({image,frame})=>{
+    const box=frame.getBoundingClientRect();
+    if(!box.height)return;
+    const position=Math.max(-1,Math.min(1,(innerHeight/2-box.top-box.height/2)/(innerHeight/2+box.height/2)));
+    const distance=Math.min(mobile?10:24,box.height*.032);
+    image.style.setProperty('--scroll-drift',(position*distance).toFixed(2)+'px');
+  });
+}
+measureScrollMotion();
+document.documentElement.classList.add('scroll-motion');
+window.addEventListener('resize',measureScrollMotion);
+
 const track=document.querySelector('.scroll-track');
 const railCount=document.querySelector('.rail-count');
 const sections=[...document.querySelectorAll('[data-section]')];
@@ -56,6 +104,7 @@ function updateScroll(){
   const maxScroll=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
   const progress=maxScroll?Math.min(1,Math.max(0,window.scrollY/maxScroll)):0;
   document.documentElement.style.setProperty('--scroll',progress.toFixed(4));
+  updateScrollMotion(progress);
   track.setAttribute('aria-valuenow',String(Math.round(progress*100)));
   track.setAttribute('aria-valuetext',isGeorgian()?`გვერდის ${Math.round(progress*100)}% გადახვეულია`:`${Math.round(progress*100)}% through page`);
   const active=sections.reduce((current,section)=>section.getBoundingClientRect().top<window.innerHeight*.4?section:current,sections[0]);
