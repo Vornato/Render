@@ -1,4 +1,4 @@
-RENDER STUDIO — LOCAL WEBSITE
+RENDER STUDIO - LOCAL WEBSITE
 
 OPEN THE WEBSITE
 Double-click index.html. No installation, build step, account or internet connection is needed to view the website. WhatsApp requires an internet connection.
