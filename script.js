@@ -1,5 +1,5 @@
 'use strict';
-window.RENDER_CONFIG = {whatsappNumber:'995595551405', whatsappDisplay:'+995 595 55 14 05'};
+window.RENDER_CONFIG = {whatsappNumber:'995595551405'};
 const t=text=>window.RenderI18n?.t(text)??text;
 const isGeorgian=()=>window.RenderI18n?.language==='ka';
 const menuButton=document.querySelector('.menu-toggle');
@@ -16,9 +16,9 @@ window.addEventListener('resize',()=>{if(window.innerWidth>1000)closeMenu();});
 const config=window.RENDER_CONFIG;
 const greeting="Hi Render Studio! I'd like to discuss a project.";
 function whatsappURL(text){return `https://wa.me/${config.whatsappNumber}${text?'?text='+encodeURIComponent(text):''}`;}
-function updateWhatsAppLinks(){document.querySelectorAll('.whatsapp-link').forEach(link=>{link.href=whatsappURL(link.classList.contains('contact-number')?'':t(greeting));});}
+function updateWhatsAppLinks(){document.querySelectorAll('.whatsapp-link').forEach(link=>{link.href=whatsappURL(t(greeting));});}
 updateWhatsAppLinks();
-document.querySelector('.contact-number').textContent=config.whatsappDisplay;
+
 document.querySelector('#year').textContent=new Date().getFullYear();
 
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');

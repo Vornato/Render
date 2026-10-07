@@ -17,8 +17,8 @@ The red square on the right tracks page progress. Click or drag the track to scr
 A motion pause control is in the footer. The site respects the device’s reduced-motion preference. Portfolio videos play when a visitor clicks Play. The decorative hero background automatically loops silently while the top section is visible.
 
 CONTACT
-WhatsApp: +995 595 55 14 05
-The primary setting is RENDER_CONFIG at the top of script.js. Update both whatsappNumber (digits only, including country code) and whatsappDisplay if needed. Also update the fallback links and visible number in index.html so they remain correct without JavaScript.
+Contact: use the Chat on WhatsApp button. The phone number is not displayed.
+The primary setting is RENDER_CONFIG at the top of script.js. Update whatsappNumber (digits only, including country code) if needed. Also update the fallback WhatsApp links in index.html so the buttons remain correct without JavaScript.
 The project form builds a WhatsApp message using the visitor’s name, company, selected services and brief. It opens WhatsApp for the visitor to review and send; it does not send automatically. The website does not store or transmit form entries to a server.
 
 EDITING CONTENT
