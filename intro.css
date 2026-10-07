@@ -1,0 +1,38 @@
+/* The opening assembles the supplied pixel mark, then reveals the site in blocks. */
+.site-intro{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;color:#f4f4f1;font-family:Arial,Helvetica,sans-serif;isolation:isolate;touch-action:none}
+.intro-pending #site-intro[hidden]{display:grid!important}
+html.intro-running,html.intro-running body{overflow:hidden}
+.intro-running #remotion-overlay{visibility:hidden}
+.intro-tiles{position:absolute;inset:0;z-index:-1;display:grid;grid-template-columns:repeat(var(--intro-columns,12),1fr);grid-template-rows:repeat(var(--intro-rows,8),1fr);background:#050505;overflow:hidden}
+.intro-tile{display:block;background:#050505;transform:translateZ(0)}
+.intro-brand{display:flex;align-items:center;gap:clamp(24px,3.6vw,58px);padding:32px;max-width:100%;transition:opacity .18s steps(3,end),transform .3s steps(4,end)}
+.intro-mark{width:clamp(112px,13vw,184px);height:auto;flex-shrink:0;overflow:visible}
+.intro-pixel{transform-box:fill-box;transform-origin:center;opacity:0}
+.intro-running .intro-pixel{animation:intro-pixel-assemble .72s steps(6,end) var(--pixel-delay,0s) both}
+.intro-wordmark{display:flex;flex-direction:column;gap:14px;line-height:1}
+.intro-render{display:flex;font-size:clamp(42px,6.5vw,96px);font-weight:800;letter-spacing:-.045em}
+.intro-render>span{display:block;opacity:0;transform:translateY(12px);clip-path:inset(100% 0 0 0)}
+.intro-running .intro-render>span{animation:intro-letter-reveal .6s steps(5,end) calc(.38s + var(--letter-index)*.07s) both}
+.intro-studio{font-size:clamp(12px,1.4vw,20px);font-weight:700;letter-spacing:.62em;opacity:0}
+.intro-running .intro-studio{animation:intro-studio-reveal .42s steps(4,end) .9s both}
+.intro-skip{position:absolute;right:clamp(24px,4vw,64px);bottom:clamp(24px,4vw,48px);display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid #474747;border-radius:10px;color:#dededb;font-size:13px;font-weight:600}
+.intro-skip::after{content:"";width:6px;height:6px;background:#ad4244}
+.intro-skip:hover{background:rgba(255,255,255,.12);color:white}
+.intro-skip:focus-visible{outline:2px solid #ad4244;outline-offset:5px}
+.site-intro.is-revealing .intro-tiles{background:transparent}
+.site-intro.is-revealing .intro-brand{opacity:0;transform:scale(.96)}
+.site-intro.is-revealing .intro-skip{visibility:hidden;pointer-events:none}
+.site-intro.is-revealing .intro-tile{animation:intro-tile-reveal .8s steps(5,end) var(--tile-delay,0s) both;will-change:opacity}
+.site-intro.is-static .intro-pixel,.site-intro.is-static .intro-render>span,.site-intro.is-static .intro-studio{animation:none;opacity:1;transform:none;clip-path:none}
+.site-intro.is-static.is-revealing{opacity:0;transition:opacity .14s ease}
+.site-intro.is-static.is-revealing .intro-tiles{background:#050505}
+.site-intro.is-static.is-revealing .intro-tile{animation:none}
+.site-intro.is-static .intro-brand{transition:none;transform:none}
+@keyframes intro-pixel-assemble{0%{opacity:0;transform:translate(var(--pixel-x,0px),var(--pixel-y,0px)) scale(.25)}65%{opacity:1;transform:translate(0,0) scale(.92)}100%{opacity:1;transform:translate(0,0) scale(1)}}
+@keyframes intro-letter-reveal{0%{opacity:0;transform:translateY(12px);clip-path:inset(100% 0 0 0)}100%{opacity:1;transform:translateY(0);clip-path:inset(0)}}
+@keyframes intro-studio-reveal{0%{opacity:0;transform:translateX(12px)}100%{opacity:1;transform:translateX(0)}}
+@keyframes intro-tile-reveal{0%{opacity:1}100%{opacity:0}}
+@media(max-width:760px){.intro-brand{flex-direction:column;gap:30px;text-align:center;padding:28px}.intro-mark{width:130px}.intro-render{font-size:clamp(44px,13vw,70px)}.intro-wordmark{align-items:center;gap:16px}.intro-studio{font-size:13px;letter-spacing:.58em;padding-left:.58em}}
+@media(prefers-reduced-motion:reduce){.intro-pixel,.intro-render>span,.intro-studio{animation:none!important;opacity:1;transform:none;clip-path:none}.intro-brand{transition:none!important;transform:none!important}}
+
+html[lang="ka"] .intro-skip{font-family:"Render Georgian",Arial,sans-serif}

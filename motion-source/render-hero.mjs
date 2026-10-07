@@ -1,0 +1,23 @@
+import {bundle} from '@remotion/bundler';
+import {selectComposition,renderMedia,renderStill} from '@remotion/renderer';
+import {fileURLToPath} from 'node:url';
+import {mkdir,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+import {existsSync} from 'node:fs';
+const siteIsParent=existsSync(fileURLToPath(new URL('../index.html',import.meta.url)));
+const outputDir=fileURLToPath(new URL(siteIsParent?'../assets/':'../render-studio-website/assets/',import.meta.url));
+const qaDir=fileURLToPath(new URL(siteIsParent?'./.render-qa/':'../render-studio-website-qa/',import.meta.url));
+await mkdir(qaDir,{recursive:true});
+const serveUrl=await bundle({entryPoint:fileURLToPath(new URL('./src/studio.tsx',import.meta.url)),publicDir:fileURLToPath(new URL('./public',import.meta.url))});
+const composition=await selectComposition({serveUrl,id:'RenderHeroBackdrop'});
+await renderStill({serveUrl,composition,frame:0,imageFormat:'png',output:path.join(qaDir,'hero-loop-first.png')});
+await renderStill({serveUrl,composition:{...composition,durationInFrames:361},frame:360,imageFormat:'png',output:path.join(qaDir,'hero-loop-repeat.png')});
+const firstHash=createHash('sha256').update(await readFile(path.join(qaDir,'hero-loop-first.png'))).digest('hex');
+const repeatHash=createHash('sha256').update(await readFile(path.join(qaDir,'hero-loop-repeat.png'))).digest('hex');
+if(firstHash!==repeatHash)throw new Error('Hero loop repeat frame does not match first frame');
+console.log('Seam check passed: first and repeat frames are identical.');
+let lastBucket=-1;
+await renderMedia({serveUrl,composition,codec:'h264',crf:22,pixelFormat:'yuv420p',imageFormat:'png',concurrency:4,
+ outputLocation:path.join(outputDir,'hero-loop.mp4'),onProgress:({progress})=>{const bucket=Math.floor(progress*10);if(bucket!==lastBucket){lastBucket=bucket;console.log(`Hero loop ${Math.round(progress*100)}%`);}}});
+console.log('Hero background loop ready.');
