@@ -79,3 +79,7 @@ Hero uses the supplied Render background video, optimized as assets/render-backg
 
 CINEMATIC DESIGN
 cinematic.css adds a near-black canvas, diagonal light trails, sculptural artwork, white typography and red pill actions inspired by the supplied reference. The supplied video and whole-page scroll palettes remain active.
+
+TYPOGRAPHY AND FINISHING PASS
+English uses the locally hosted Manrope variable font; Georgian uses Noto Sans Georgian with its own size, spacing and weight rules. The OFL licenses are included in assets. cinematic.css is the final visual layer. Language choices persist and are shareable with ?lang=en or ?lang=ka. The first visit in a browser tab plays the shorter intro; later visits in the same session open directly. The decorative Remotion overlay is no longer loaded. The hero artwork responds gently to mouse pointers and respects paused/reduced motion.
+The portfolio identity study now also uses the supplied Render background footage in its original, taller composition to keep the full studio mark visible in the card. The footer PNG is blended over the dark canvas without an opaque rectangle.

@@ -18,6 +18,7 @@
     finished=true;
     timers.forEach(clearTimeout);timers.clear();
     root.classList.remove('intro-pending','intro-running');
+    try{sessionStorage.setItem('render-intro-seen','true');}catch{}
     locked.forEach(({element,inert})=>{element.inert=inert;});
     observer?.disconnect();
     window.removeEventListener('resize',onResize);
@@ -30,6 +31,8 @@
     window.dispatchEvent(new Event('scroll'));
   }
   window.RenderIntro={finish,get state(){return finished?'finished':revealing?'revealing':'logo';}};
+  let alreadySeen=false;try{alreadySeen=sessionStorage.getItem('render-intro-seen')==='true';}catch{}
+  if(alreadySeen){finish();return;}
   function updateLanguage(){const ka=window.RenderI18n?.language==='ka';skip.textContent=ka?'ანიმაციის გამოტოვება':'Skip intro';intro.setAttribute('aria-label',ka?'Render Studio-ს შესავალი':'Render Studio introduction');}
   function buildTiles(){
     const columns=window.innerWidth<=760?6:Math.min(16,Math.max(10,Math.round(window.innerWidth/120)));
@@ -39,7 +42,7 @@
     for(let row=0;row<rows;row++)for(let col=0;col<columns;col++){
       const tile=document.createElement('span');tile.className='intro-tile';
       const distance=Math.abs(col-(columns-1)/2)+Math.abs(row-(rows-1)/2);
-      const delay=distance/((columns+rows)/2)*620+((row*13+col*7)%7)*16;
+      const delay=distance/((columns+rows)/2)*430+((row*13+col*7)%7)*16;
       tile.style.setProperty('--tile-delay',`${Math.round(delay)}ms`);tiles.push(tile);
     }
     grid.replaceChildren(...tiles);
@@ -47,7 +50,7 @@
   function beginReveal(){
     if(finished||revealing)return;
     revealing=true;intro.classList.add('is-revealing');
-    later(finish,intro.classList.contains('is-static')?180:1580);
+    later(finish,intro.classList.contains('is-static')?180:1050);
   }
   function onResize(){if(revealing)finish();else buildTiles();}
   function onKey(event){if(event.key==='Escape'){event.preventDefault();finish();}}
@@ -67,6 +70,6 @@
   intro.hidden=false;
   root.classList.add('intro-running');root.classList.remove('intro-pending');
   updateLanguage();skip.focus({preventScroll:true});
-  later(beginReveal,intro.classList.contains('is-static')?550:1800);
+  later(beginReveal,intro.classList.contains('is-static')?350:1300);
   later(finish,4500);
 })();

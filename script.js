@@ -7,6 +7,8 @@ const nav=document.querySelector('#primary-nav');
 function closeMenu(){nav.classList.remove('is-open');menuButton.setAttribute('aria-expanded','false');}
 menuButton.addEventListener('click',()=>{const isOpen=nav.classList.toggle('is-open');menuButton.setAttribute('aria-expanded',String(isOpen));});
 nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu();});
+document.addEventListener('pointerdown',event=>{if(!event.target.closest('.site-header'))closeMenu();});
+nav.addEventListener('keydown',event=>{if(event.key==='Escape'){closeMenu();menuButton.focus();}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu();});
 window.addEventListener('resize',()=>{if(window.innerWidth>1000)closeMenu();});
 
@@ -67,7 +69,7 @@ function updateScroll(){
     if(floatingPixel)floatingPixel.style.transform=`translate(${heroProgress*35}px,${-heroProgress*35}px)`;
   }
   const contactRect=document.querySelector('#contact').getBoundingClientRect();
-  const hideFloating=contactRect.top<window.innerHeight*.8&&contactRect.bottom>0;
+  const hideFloating=active.id==='home'||(contactRect.top<window.innerHeight*.8&&contactRect.bottom>0);
   const floatLink=document.querySelector('.whatsapp-float');
   floatLink.classList.toggle('is-hidden',hideFloating);
   floatLink.inert=hideFloating;
@@ -150,14 +152,17 @@ form.querySelectorAll('[required]').forEach(input=>{
 updateLanguageUI();
 updateMotion();scheduleScroll();
 
-// Light follows the pointer across the frosted panels; touch and reduced motion stay still.
-document.querySelectorAll('.hero-copy,.hero-art,.hero-bottom').forEach(panel=>{
+// The glass responds only to fine pointers while motion is enabled.
+const glassPanels=[...document.querySelectorAll('.hero-art')];
+function resetGlass(panel){['--glass-x','--glass-y','--glass-tilt-x','--glass-tilt-y'].forEach(name=>panel.style.removeProperty(name));}
+glassPanels.forEach(panel=>{
   let pending=0;
   panel.addEventListener('pointermove',event=>{
-    if(event.pointerType==='touch'||!motionAllowed())return;
-    const box=panel.getBoundingClientRect();
-    const x=(event.clientX-box.left)/box.width*100,y=(event.clientY-box.top)/box.height*100;
-    cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{panel.style.setProperty('--glass-x',x+'%');panel.style.setProperty('--glass-y',y+'%')});
+    if(event.pointerType!=='mouse'||!motionAllowed())return;
+    const box=panel.getBoundingClientRect();const x=Math.max(0,Math.min(1,(event.clientX-box.left)/box.width)),y=Math.max(0,Math.min(1,(event.clientY-box.top)/box.height));
+    cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{panel.style.setProperty('--glass-x',x*100+'%');panel.style.setProperty('--glass-y',y*100+'%');panel.style.setProperty('--glass-tilt-x',(0.5-y)*4+'deg');panel.style.setProperty('--glass-tilt-y',(x-0.5)*5+'deg');});
   },{passive:true});
-  panel.addEventListener('pointerleave',()=>{cancelAnimationFrame(pending);panel.style.removeProperty('--glass-x');panel.style.removeProperty('--glass-y')});
+  panel.addEventListener('pointerleave',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
+  motionToggle.addEventListener('click',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
+  reducedMotion.addEventListener('change',()=>{cancelAnimationFrame(pending);resetGlass(panel);});
 });

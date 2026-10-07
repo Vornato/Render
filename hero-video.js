@@ -28,7 +28,7 @@
     video.classList.toggle('is-playing',playing);
     hero.classList.toggle('hero-background-user-play',intent==='play');
     hero.classList.toggle('hero-background-paused',!active);
-    control.hidden=!visible||document.hidden;
+    control.hidden=false;
     control.textContent=translate(motionRunning?'Pause background':'Play background');
     control.setAttribute('aria-label',translate(motionRunning?'Pause background animation':'Play background animation'));
     control.setAttribute('aria-pressed',String(motionRunning));
