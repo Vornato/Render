@@ -73,3 +73,6 @@ OPENING LOGO ANIMATION
 Each fresh page load starts on black. The supplied logo's ten square positions assemble, RENDER STUDIO appears, then staggered black tiles fade to reveal the website in about 3.4 seconds. intro.css and intro.js control the responsive opening. Skip intro or Escape opens the website immediately. Reduced-motion or saved motion-pause settings show a short static logo and simple fade. The opening temporarily locks scrolling and background interaction, then restores both. A fail-safe removes it if initialization fails. The intro needs no video autoplay, external assets or server.
 
 Intro verification: JavaScript syntax and isolated lifecycle checks for automatic completion, tile coverage at desktop/mobile sizes, skip/Escape, reduced motion, saved pause settings, resize, storage failures and restored interaction. The intro was not visually checked in the live file browser tab.
+
+OCTOBER 2026 VISUAL UPDATE
+Hero uses the supplied Render background video, optimized as assets/render-background.mp4, with a matching poster and animated fallback. This replaces the generated red-dot loop. Section palettes now cover the full page, header, form and footer, finishing in charcoal at contact. Hero glass reflections follow mouse pointers and respect motion preferences. The supplied Render Studio wordmark appears in the footer.

@@ -149,3 +149,15 @@ form.querySelectorAll('[required]').forEach(input=>{
 });
 updateLanguageUI();
 updateMotion();scheduleScroll();
+
+// Light follows the pointer across the frosted panels; touch and reduced motion stay still.
+document.querySelectorAll('.hero-copy,.hero-art,.hero-bottom').forEach(panel=>{
+  let pending=0;
+  panel.addEventListener('pointermove',event=>{
+    if(event.pointerType==='touch'||!motionAllowed())return;
+    const box=panel.getBoundingClientRect();
+    const x=(event.clientX-box.left)/box.width*100,y=(event.clientY-box.top)/box.height*100;
+    cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{panel.style.setProperty('--glass-x',x+'%');panel.style.setProperty('--glass-y',y+'%')});
+  },{passive:true});
+  panel.addEventListener('pointerleave',()=>{cancelAnimationFrame(pending);panel.style.removeProperty('--glass-x');panel.style.removeProperty('--glass-y')});
+});
