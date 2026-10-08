@@ -1,6 +1,42 @@
 'use strict';
 (() => {
   const ge = {
+    "All work":"ყველა ნამუშევარი",
+    "Brand promos":"ბრენდის პრომოები",
+    "Events & music":"ღონისძიებები და მუსიკა",
+    "Sports & motion":"სპორტი და ანიმაცია",
+    "Studio concepts":"სტუდიის კონცეფციები",
+    "Watch film":"ნახე ვიდეო",
+    "Watch on YouTube":"ნახე YouTube-ზე",
+    "Previous film":"წინა ვიდეო",
+    "Next film":"შემდეგი ვიდეო",
+    "More films":"მეტი ვიდეო",
+    "Close player":"პლეერის დახურვა",
+    "Video player":"ვიდეოპლეერი",
+    "Loading video…":"ვიდეო იტვირთება…",
+    "Playback unavailable here. Watch this film on YouTube.":"ვიდეოს აქ დაკვრა ვერ ხერხდება. ნახე YouTube-ზე.",
+    "Taking longer to load? You can watch on YouTube.":"ვიდეოს ჩატვირთვა დაგვიანდა? შეგიძლია ნახო YouTube-ზე.",
+    "Press play to start the film.":"ვიდეოს დასაწყებად დააჭირე დაკვრას.",
+    "Film finished. Explore another project.":"ვიდეო დასრულდა. ნახე სხვა ნამუშევრებიც.",
+    "Selected video edits, brand promos, and event films from our creative portfolio. Explore the films, then discover Render Studio’s visual concepts.":"შერჩეული ვიდეომონტაჟი, ბრენდის პრომოები და ღონისძიებების ვიდეოები ჩვენი კრეატიული პორტფოლიოდან. ნახე ვიდეოები, შემდეგ აღმოაჩინე Render Studio-ს ვიზუალური კონცეფციები.",
+    "Archi Fitness - Brand introduction":"Archi Fitness - ბრენდის გაცნობა",
+    "Archi - Corporate event":"Archi - კორპორატიული ღონისძიება",
+    "A short fitness-brand introduction combining location footage, clean editing, and animated brand details.":"ფიტნეს-ბრენდის მოკლე გაცნობა ლოკაციის კადრებით, სუფთა მონტაჟითა და ბრენდის ანიმირებული დეტალებით.",
+    "An energetic event edit with graphic frames, animated accents, and people at the center of the story.":"ენერგიული ღონისძიების მონტაჟი გრაფიკული ჩარჩოებით, ანიმირებული აქცენტებითა და ადამიანებით ისტორიის ცენტრში.",
+    "A compact live-event edit focused on the performance, atmosphere, and pace.":"ცოცხალი გამოსვლის მოკლე ვიდეომონტაჟი, რომელიც შესრულებას, ატმოსფეროსა და რიტმს აერთიანებს.",
+    "A sports promo combining kinetic typography, bold transitions, and an energetic visual rhythm.":"სპორტული პრომო კინეტიკური ტიპოგრაფიით, თამამი გადასვლებითა და ენერგიული ვიზუალური რიტმით.",
+    "BRAND / VIDEO EDITING":"ბრენდი / ვიდეომონტაჟი",
+    "EVENT / VIDEO EDITING":"ღონისძიება / ვიდეომონტაჟი",
+    "MUSIC / EVENT FILM":"მუსიკა / ღონისძიების ვიდეო",
+    "SPORTS / MOTION GRAPHICS":"სპორტი / მოძრავი გრაფიკა",
+    "Video editing":"ვიდეომონტაჟი",
+    "Brand animation":"ბრენდის ანიმაცია",
+    "Vertical video":"ვერტიკალური ვიდეო",
+    "Event film":"ღონისძიების ვიდეო",
+    "Motion graphics":"მოძრავი გრაფიკა",
+    "Live performance":"ცოცხალი შესრულება",
+    "Kinetic typography":"კინეტიკური ტიპოგრაფია",
+    "Sports promo":"სპორტული პრომო",
     "Website design":"ვებსაიტების დიზაინი",
     "Websites, branding, video, and marketing that work together. We turn your ideas into a clear identity, compelling content, and a stronger online presence.":"ვებსაიტები, ბრენდინგი, ვიდეო და მარკეტინგი - ერთიანი ხედვით. ვქმნით შენი ბრენდის ვიზუალურ სახეს, საინტერესო კონტენტს და ვაძლიერებთ მის ციფრულ კომუნიკაციას.",
     "From your visual identity and website to the content and campaigns that bring them to life. We connect design, development, and marketing around one clear direction.":"ბრენდის ვიზუალური იდენტობიდან და ვებსაიტიდან კონტენტამდე და კამპანიებამდე. დიზაინს, ვებდეველოპმენტსა და მარკეტინგს ერთი მკაფიო მიმართულებით ვაერთიანებთ.",
@@ -79,7 +115,7 @@
   if(language!=='ka')language='en';
   const t=(text)=>language==='ka'&&Object.prototype.hasOwnProperty.call(ge,text)?ge[text]:text;
   const nodes=[];const attributes=[];
-  const dynamic='#motion-toggle,.video-label,#filter-status,#form-status,#project-dialog';
+  const dynamic='#motion-toggle,.video-label,#filter-status,#form-status,#project-dialog,#video-dialog';
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
     const node=walker.currentNode;const parent=node.parentElement;
@@ -88,7 +124,7 @@
     if(Object.prototype.hasOwnProperty.call(ge,key))nodes.push({node,original,key});
   }
   document.querySelectorAll('[placeholder],[aria-label],[alt]').forEach(element=>{
-    if(element.closest('.language-switch,#project-dialog'))return;
+    if(element.closest('.language-switch,#project-dialog,#video-dialog'))return;
     ['placeholder','aria-label','alt'].forEach(name=>{const original=element.getAttribute(name);if(original&&ge[original])attributes.push({element,name,original});});
   });
   const title=document.title;const description=document.querySelector('meta[name="description"]');const descriptionText=description.content;

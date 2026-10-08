@@ -139,8 +139,9 @@ filterButtons.forEach(button=>button.addEventListener('click',()=>{
   const category=button.dataset.filter;let count=0;
   filterButtons.forEach(item=>{const selected=item===button;item.classList.toggle('is-active',selected);item.setAttribute('aria-pressed',String(selected));});
   document.querySelectorAll('.project').forEach(project=>{project.hidden=category!=='all'&&project.dataset.category!==category;if(!project.hidden){project.classList.add('is-visible');count++;}});
-  if(category==='strategy')pauseVideo();
-  document.querySelector('#filter-status').textContent=isGeorgian()?`ნაჩვენებია სტუდიის ${count} კონცეფცია.`:`Showing ${count} ${count===1?'studio concept':'studio concepts'}.`;
+  if(category!=='all'&&category!=='studio')pauseVideo();
+  document.querySelector('.portfolio-grid').dataset.visibleCount=String(count);
+  document.querySelector('#filter-status').textContent=isGeorgian()?`ნაჩვენებია ${count} ნამუშევარი.`:`Showing ${count} ${count===1?'project':'projects'}.`;
   scheduleScroll();
 }));
 const conceptData={content:{title:'Content, built to connect.',image:'assets/content.webp',alt:'A geometric pixel camera and framed artwork with a muted red accent',description:'A studio exploration of a content-production world built from our square-grid identity. The camera, framed images and red focal point bring a shared visual language to a collection of social assets. A real project could carry this direction through videos, post design and a planned content calendar.',tags:['Creative direction','Social content','Video production']},growth:{title:'A strategy with direction.',image:'assets/growth.webp',alt:'Ascending gray block steps with a muted red block at the top',description:'A studio exploration of how a brand can visualize progress without overcomplicating the message. A simple staircase and one red focal point form a clear campaign idea. A real project would begin with an audience, a measurable goal and a creative testing plan.',tags:['Campaign concept','Brand strategy','Performance thinking']}};
