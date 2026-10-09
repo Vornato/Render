@@ -1,6 +1,11 @@
 'use strict';
 (() => {
   const ge = {
+    "Follow the studio":"გამოგვყევი სოციალურ ქსელებში",
+    "Follow Render Studio":"გამოგვყევი სოციალურ ქსელებში",
+    "Render Studio social media":"Render Studio სოციალურ ქსელებში",
+    "Render Studio on Facebook (opens in a new tab)":"Render Studio Facebook-ზე (იხსნება ახალ ჩანართში)",
+    "Render Studio on Instagram (opens in a new tab)":"Render Studio Instagram-ზე (იხსნება ახალ ჩანართში)",
     "All work":"ყველა ნამუშევარი",
     "Brand promos":"ბრენდის პრომოები",
     "Events & music":"ღონისძიებები და მუსიკა",
